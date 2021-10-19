@@ -20,8 +20,8 @@ UserModel.updateUserByUUID = (entity, uuid) => {
   return db.update(TBL_USER, entity, { uuid: uuid })
 }
 
-UserModel.findOneUserByID = async function (id) {
-  const rows = await db.load(`SELECT * FROM ${TBL_USER} WHERE ${TBL_COL_USER_ID} = '${id}';`);
+UserModel.findOneUserByUUID = async function (uuid) {
+  const rows = await db.load(`SELECT * FROM ${TBL_USER} WHERE ${TBL_COL_UUID} = '${uuid}';`);
   if (rows.length === 0) { return null }
   return rows[0];
 }

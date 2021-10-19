@@ -109,7 +109,13 @@ AuthController.login = async (req, res, next) => {
     await UserModel.updateUserByUUID({ refresh_token: refreshToken }, userByEmail['uuid']);
     res.cookie('jwt', refreshToken, { httpOnly: true, secure: true, maxAge: 24 * 60 * 60 * 1000 * 30 });
 
-    return res.json({ success: true, message: "Login successfully!", accessToken });
+    return res.json({
+      success: true, message: "Login successfully!", accessToken, data: {
+        uuid: _uuid,
+        name: _name,
+        email: _email
+      }
+    });
   } else {
     return res.status(401).json({ success: true, message: `Can't login!` });
   }
@@ -178,7 +184,7 @@ AuthController.logout = async (req, res, next) => {
 
   // delete refresh_token in database.
   await UserModel.updateUserByUUID({ refresh_token: '' }, userByRefreshToken['uuid']);
-  
+
   res.clearCookie('jwt', { httpOnly: true, sameSite: "None", secure: true, });
 
   return res.status(204);

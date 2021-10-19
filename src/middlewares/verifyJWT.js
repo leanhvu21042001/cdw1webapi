@@ -1,6 +1,5 @@
 const jwt = require('jsonwebtoken');
 require('dotenv').config();
-const UserModel = require('../models/user.model');
 
 const verifyJWT = (req, res, next) => {
   const authHeader = req.headers['authorization'];
@@ -15,15 +14,9 @@ const verifyJWT = (req, res, next) => {
         success: false,
         message: "Invalid token!"
       });
-
-      const userByID = await UserModel.findOneUserByID(decoded?.id);
-      if (userByID) {
-        req.user = userByID;
-        next();
-      } else {
-        throw new Error("Invalid token");
-      }
-    })
+      req.user = decoded;
+      next();
+    });
 }
 
 module.exports = verifyJWT;
