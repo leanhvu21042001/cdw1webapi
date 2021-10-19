@@ -57,7 +57,6 @@ module.exports = {
   },
   update2condition: function (table, entity, condition1, condition2) {
     const sql = `UPDATE ${table} SET ? WHERE ? AND ?`;
-    console.log(entity, "Cond: ", condition1, condition2);
     return new Promise((resolve, reject) => {
       pool.query(sql, [entity, condition1, condition2], (err, results, fields) => {
         
